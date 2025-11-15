@@ -1,8 +1,8 @@
 /* ==================================== */
 /* 0. THEME VARIABLES (Root and Theme Classes) */
+/* (Variables section remains unchanged) */
 /* ==================================== */
 
-/* Global Transition for Smooth Switching (Ant Design Cleanliness) */
 :root {
   --color-background: #f0f4f9;
   --color-text: #171c35;
@@ -17,43 +17,37 @@
 }
 
 :root, .light {
-    --color-background: #f0f4f9; /* Pale Blue/Gray for fresh look */
-    --color-text: #171c35; /* Darker text for Ant Design professionalism */
+    --color-background: #f0f4f9; 
+    --color-text: #171c35; 
     --color-subtle-text: #606680;
-    
-    /* Stronger, defined Glass for Light Mode (Almost opaque white with clear border) */
     --color-glass-bg: rgba(255, 255, 255, 0.95); 
-    --color-glass-border: rgba(100, 100, 100, 0.15); /* Soft gray border */
-    
-    --color-grid-line: rgba(0, 0, 0, 0.04); /* Very subtle grid */
-    
-    --color-primary: #ff4040; /* Vibrant Magenta/Pink */
-    --color-primary-glow: rgba(255, 64, 153, 0.3); /* Softer glow for light mode */
-    --color-secondary-highlight: #007bff; /* Deep Blue for contrast */
-    
-    
-    /* Professional Ant-Design like multi-layer Shadow */
+    --color-glass-border: rgba(100, 100, 100, 0.15); 
+    --color-grid-line: rgba(0, 0, 0, 0.04); 
+    --color-primary: #ff4040; 
+    --color-primary-glow: rgba(255, 64, 153, 0.3); 
+    --color-secondary-highlight: #007bff; 
     --color-card-shadow: rgba(0, 0, 0, 0.15); 
-
-    --section-title-color: #1a1a1a; /* Deep dark navy for contrast */
-  --section-title-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    --section-title-color: #1a1a1a; 
+    --section-title-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    /* NEW LIGHT MODE GRADIENT */
+    --color-title-gradient: linear-gradient(45deg, var(--color-primary), #3333ff);
 }
 
-/* Dark Mode Variables (Activated by .dark class on <html>) */
 .dark {
-    --color-background: #1A0825; /* Updated: Dark Purplish Background */
-    --color-text: #e0e7ff; /* Updated: Lighter, more vibrant text */
-    --color-subtle-text: #a0a8c2; /* Updated: Better contrast subtle text */
-    --color-glass-bg: #21002a; /* Updated: Slightly more visible glass */
-    --color-glass-border: rgba(255, 255, 255, 0.2); /* Updated: Sharper glass border */
+    --color-background: #1A0825; 
+    --color-text: #e0e7ff; 
+    --color-subtle-text: #a0a8c2; 
+    --color-glass-bg: #21002a; 
+    --color-glass-border: rgba(255, 255, 255, 0.2); 
     --color-grid-line: rgba(255, 255, 255, 0.05);
-    --color-primary: #ff00ee; /* Updated: Electric Magenta */
-    --color-primary-glow: rgba(255, 0, 238, 0.9); /* Updated: Intense primary glow */
-    --color-secondary-highlight: #00eaff; /* Updated: Cyber Cyan highlight */
-    --color-card-shadow: rgba(0, 0, 0, 0.8); /* Updated: Deeper shadow base */
-
-      --section-title-color: #ffffff; /* Clean bright white */
-  --section-title-shadow: 0 0 15px rgba(255, 255, 255, 0.25);
+    --color-primary: #ff00ee; 
+    --color-primary-glow: rgba(255, 0, 238, 0.9); 
+    --color-secondary-highlight: #00eaff; 
+    --color-card-shadow: rgba(0, 0, 0, 0.8); 
+    --section-title-color: #ffffff; 
+    --section-title-shadow: 0 0 15px rgba(255, 255, 255, 0.25);
+    /* NEW DARK MODE GRADIENT (Adjusted for better contrast in dark theme) */
+    --color-title-gradient: linear-gradient(45deg, var(--color-primary), var(--color-secondary-highlight));
 }
 
 /* ==================================== */
@@ -68,13 +62,12 @@
   overflow: hidden; 
   background-color: var(--color-background); /* Dynamic */
   color: var(--color-text); /* Dynamic */
-  padding: 20px;
+  padding: clamp(10px, 2vw, 20px);
 }
 
 .hero-grid-background {
-    /* Optional: Aceternity style grid effect */
-    background-image: linear-gradient(0deg, transparent 24px, var(--color-grid-line) 25px), /* Dynamic */
-                      linear-gradient(90deg, transparent 24px, var(--color-grid-line) 25px); /* Dynamic */
+    background-image: linear-gradient(0deg, transparent 24px, var(--color-grid-line) 25px), 
+                      linear-gradient(90deg, transparent 24px, var(--color-grid-line) 25px); 
     background-size: 25px 25px;
     background-position: -1px -1px;
 }
@@ -85,61 +78,95 @@
     100% { background-position: 100% 50%; }
 }
 
-/* --- FIX: Responsive Top Bar Positioning --- */
+/* --- FIX: Responsive Top Bar Positioning (COMBINED LOGIC) --- */
 .top-left-buttons {
-  gap: 15px; /* Adjusted gap */
-  position: absolute;
-  top: 15px; /* Adjusted position */
-  left: 20px; /* Adjusted position */
-  right: 20px; /* Adjusted position */
-  z-index: 100; 
+  gap: 15px; 
+  position: static; 
   display: flex;
-  justify-content: space-between;
+  /* KEY FIX: Align content to the left and push controls to the right */
+  justify-content: space-between; 
   align-items: center;
+  z-index: 100; 
 }
 
+/* Ensure the main content inside the hero-header is centered and full width */
 .hero-header {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex; 
+    /* FIX: This level should only house the left and right controls */
+    justify-content: space-between; 
+    align-items: center;
+    padding: 0; 
+}
+
+.header-left {
     display: flex;
     align-items: center;
-    gap: 10px; /* Adjusted gap */
+    gap: clamp(8px, 1.5vw, 15px); 
+    flex-shrink: 1; 
+    /* FIX: Force left alignment */
+    justify-content: flex-start;
+}
+
+/* --- FIX 1: Gradient Text Title --- */
+.hero-title {
+    font-size: clamp(1.2rem, 3.5vw, 2.5rem); 
+    font-weight: 900;
+    
+    /* NEW: Gradient Text Styling */
+    background-image: var(--color-title-gradient); /* Dynamic Gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Standard property */
+    color: var(--color-text); /* Fallback color */
+    
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2; 
+    /* NEW: Subtle text shadow for better contrast */
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.1); 
+}
+
+/* Dark mode specific text shadow/glow for Gradient Title */
+.dark .hero-title {
+     text-shadow: 0 0 5px rgba(255, 0, 238, 0.4); 
+}
+
+.logo img {
+    width: 100%; 
+    height: 100%;
+    object-fit: contain;
 }
 
 .hero-logo {
-    /* UPDATED: Responsive logo size */
-    width: 55px; 
-    height: 55px; 
+    width: clamp(35px, 5vw, 55px); 
+    height: clamp(35px, 5vw, 55px); 
     border-radius: 50%;
     object-fit: cover;
-    /* Soft shadow for Light Mode, Glow for Dark Mode */
     box-shadow: 0 0 10px var(--color-card-shadow); 
+    flex-shrink: 0; 
 }
 
-/* Dark mode specific glow for logo */
 .dark .hero-logo {
     box-shadow: 0 0 20px var(--color-primary-glow), 0 0 5px var(--color-primary); 
 }
 
-.hero-title {
-    /* UPDATED: Responsive Title Font Size using clamp */
-    font-size: clamp(1.5rem, 4vw, 2.5rem); 
-    font-weight: 700;
-    /* Gradient remains fixed for signature look */
-    background-image: linear-gradient(45deg, var(--color-primary), #3333ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-
 .right-controls {
     display: flex; 
     align-items: center;
-    gap: 10px; /* Adjusted gap */
+    gap: 10px; 
+    flex-shrink: 0; 
+    /* FIX: Force right alignment for controls */
+    justify-content: flex-end;
 }
 
-/* --- Theme Switch Button Style (Ant/Tailwind Clean) --- */
+/* --- Theme Switch Button Style (Kept perfect) --- */
 .theme-switch-btn {
-    width: 40px; /* Adjusted size */
-    height: 40px; /* Adjusted size */
+    width: clamp(35px, 5vw, 40px); 
+    height: clamp(35px, 5vw, 40px); 
     border-radius: 50%;
     border: none;
     cursor: pointer;
@@ -147,7 +174,6 @@
     align-items: center;
     justify-content: center;
     z-index: 11;
-    /* Uses glass effect */
     transition: all 0.3s ease;
 }
 
@@ -156,10 +182,10 @@
     transform: scale(1.1);
 }
 
-/* --- Login Button Style (Pulsating Magic UI) --- */
+/* --- Login Button Style (Pulsating Magic UI - Kept) --- */
 .login-btn {
-  padding: 10px 20px; /* Adjusted padding */
-  font-size: clamp(0.9rem, 2vw, 1.1rem); /* Responsive font size */
+  padding: clamp(8px, 2vw, 10px) clamp(16px, 4vw, 20px); 
+  font-size: clamp(0.85rem, 2vw, 1.1rem); 
   font-weight: 700;
   border: none;
   border-radius: 9999px; 
@@ -181,13 +207,13 @@
     100% { box-shadow: 0 0 20px var(--color-primary-glow), 0 0 5px var(--color-primary); }
 }
 
-/* --- FIX: Responsive Hero Row Padding/Alignment --- */
+/* --- FIX: Responsive Hero Row Padding/Alignment (Kept) --- */
 .hero-row {
   flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 80px 20px 50px; /* Adjusted padding */
+  padding: clamp(30px, 5vh, 80px) clamp(10px, 3vw, 20px) clamp(30px, 5vh, 50px); 
   z-index: 2; 
 }
 
@@ -197,36 +223,38 @@
 }
 
 .hero-subtitle {
-  font-size: clamp(1.1rem, 2.5vw, 1.6rem); /* Responsive font size */
+  font-size: clamp(1rem, 2.5vw, 1.6rem); 
   line-height: 1.6;
-  margin-bottom: 30px; /* Adjusted margin */
-  padding: 15px; /* Adjusted padding */
+  margin-bottom: 30px; 
+  padding: 15px; 
   border-radius: 16px; 
-  font-weight: 400; /* Lighter weight for subtle text */
+  font-weight: 400; 
   transition: text-shadow 0.6s ease;
 }
 
-/* Digital Glow for Subtitle in Dark Mode */
 .dark .hero-subtitle {
     text-shadow: 0 0 5px rgba(0, 255, 255, 0.5), 0 0 10px rgba(0, 255, 255, 0.2);
 }
 
-/* Subtle Shadow/Lift for Subtitle in Light Mode */
 .light .hero-subtitle {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-/* --- FIX: Responsive Stat Grid Layout --- */
+/* --- FIX: Responsive Stat Grid Layout (Kept) --- */
 .hero-stats {
-  display: grid;
-  /* FIX: Auto-fit to ensure fluidity across devices */
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
-  gap: 15px; /* Adjusted gap */
-  margin-top: 30px; /* Adjusted margin */
+  display: flex; 
+  justify-content: center;
+  flex-wrap: wrap; 
+  gap: clamp(10px, 3vw, 15px); 
+  margin-top: 30px; 
+  max-width: 800px; 
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .stat-item {
-  /* FIX: Consistent padding and min-height */
+  flex: 1 1 100px; 
+  max-width: 150px; 
   padding: 20px 15px; 
   min-height: 130px; 
   border-radius: 20px;
@@ -235,77 +263,68 @@
   overflow: hidden; 
   z-index: 1; 
   cursor: pointer;
-  /* FIX: More dramatic transition */
   transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease;
 }
 
 .stat-item:hover {
-    /* FIX: More noticeable lift */
     transform: scale(1.05) translateY(-5px); 
-    /* Light mode: Professional, deep shadow */
     box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2); 
 }
 
 .dark .stat-item:hover {
-     /* Dark mode: Intense neon glow */
-    box-shadow: 0 0 35px var(--color-primary-glow), 0 0 10px var(--color-secondary-highlight);
+     box-shadow: 0 0 35px var(--color-primary-glow), 0 0 10px var(--color-secondary-highlight);
 }
 
-/* NEW: Attractive Icon Styling */
+/* NEW: Attractive Icon Styling (Kept) */
 .stat-icon {
-    margin-bottom: 10px; /* Adjusted margin */
+    margin-bottom: 10px; 
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 45px; /* Adjusted size */
-    height: 45px; /* Adjusted size */
+    width: clamp(35px, 5vw, 45px); 
+    height: clamp(35px, 5vw, 45px); 
     margin-left: auto;
     margin-right: auto;
     border-radius: 50%;
-    /* FIX: Use simpler background for light mode icon for better visibility */
     background: rgba(0, 0, 0, 0.05); 
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
 .dark .stat-icon {
-    /* Dark mode background contrast */
     background: rgba(255, 255, 255, 0.1);
 }
 
 /* * ====================================
- * 4. THEMED ICON GLOW EFFECTS (UPDATED FOR WHITE-HOT CORE)
+ * 4. THEMED ICON GLOW EFFECTS (Kept)
  * ====================================
  */
 
-/* Light Mode: Enhanced Neon Glow with White-Hot Core */
 .light .comic-theme .stat-icon { 
-    /* Three-layer shadow: White-hot core -> Intense color -> Wide soft glow */
     box-shadow: 
-        0 0 3px rgba(255, 255, 255, 1), /* White Core */
-        0 0 12px rgba(255, 64, 153, 1), /* Intense Color Layer (Pinkish Magenta) */
-        0 0 35px rgba(255, 64, 153, 0.5); /* Outer Soft Glow */
+        0 0 3px rgba(255, 255, 255, 1), 
+        0 0 12px rgba(255, 64, 153, 1), 
+        0 0 35px rgba(255, 64, 153, 0.5); 
 }
 .light .download-theme .stat-icon { 
     box-shadow: 
-        0 0 3px rgba(255, 255, 255, 1), /* White Core */
-        0 0 12px rgba(0, 123, 255, 1), /* Intense Color Layer (Deep Blue) */
-        0 0 35px rgba(0, 123, 255, 0.5); /* Outer Soft Glow */
+        0 0 3px rgba(255, 255, 255, 1), 
+        0 0 12px rgba(0, 123, 255, 1), 
+        0 0 35px rgba(0, 123, 255, 0.5); 
 }
 .light .users-theme .stat-icon { 
     box-shadow: 
-        0 0 3px rgba(255, 255, 255, 1), /* White Core */
-        0 0 12px rgba(51, 51, 255, 1), /* Intense Color Layer (Blue) */
-        0 0 35px rgba(51, 51, 255, 0.5); /* Outer Soft Glow */
+        0 0 3px rgba(255, 255, 255, 1), 
+        0 0 12px rgba(51, 51, 255, 1), 
+        0 0 35px rgba(51, 51, 255, 0.5); 
 }
 .light .star-theme .stat-icon { 
     box-shadow: 
-        0 0 3px rgba(255, 255, 255, 1), /* White Core */
-        0 0 12px rgba(255, 170, 0, 1), /* Intense Color Layer (Orange) */
-        0 0 35px rgba(255, 170, 0, 0.5); /* Outer Soft Glow */
+        0 0 3px rgba(255, 255, 255, 1), 
+        0 0 12px rgba(255, 170, 0, 1), 
+        0 0 35px rgba(255, 170, 0, 0.5); 
 }
 
-/* Dark Mode: Intense Neon Glow (Kept the original strong effect) */
 .dark .comic-theme .stat-icon { box-shadow: 0 0 20px #ff00cc; }
 .dark .download-theme .stat-icon { box-shadow: 0 0 20px #00ffff; }
 .dark .users-theme .stat-icon { box-shadow: 0 0 20px #3333ff; }
@@ -313,15 +332,19 @@
 
 
 .stat-number {
-  font-size: clamp(1.2rem, 2.5vw, 1.5rem); /* Responsive font size */
+  font-size: clamp(1.4rem, 3.5vw, 1.5rem); 
   font-weight: 900;
   color: var(--color-text); 
 }
 
 .stat-label {
-  font-size: clamp(0.85rem, 1.5vw, 0.95rem); /* Responsive font size */
+  font-size: clamp(0.75rem, 1.5vw, 0.95rem); 
   color: var(--color-subtle-text);
   margin-top: 5px;
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 5px;
 }
 
 .hero-image-block {
@@ -336,221 +359,47 @@
 
 .main-hero-image {
     width: 100%;
-    max-width: 500px; /* Reduced max-width for better fit */
+    max-width: 500px; 
     height: auto;
     border-radius: 30px; 
     object-fit: contain;
     z-index: 2;
-    /* Dramatic, layered shadow and tilt (Magic UI) */
     box-shadow: 0 10px 60px rgba(0, 0, 0, 0.5), 0 0 100px var(--color-primary-glow); 
-    transform: rotateY(8deg) rotateX(5deg) scale(1.0); /* Reduced default scale */
+    transform: rotateY(8deg) rotateX(5deg) scale(1.0); 
     filter: saturate(1.1) brightness(1.1); 
     transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .main-hero-image:hover {
-    transform: rotateY(0deg) rotateX(0deg) scale(1.05); /* Reduced hover scale */
+    transform: rotateY(0deg) rotateX(0deg) scale(1.05); 
 }
 
 
 /* ==================================== */
-/* 2. MAGIC UI EFFECTS */
+/* 2. MAGIC UI EFFECTS (Kept) */
 /* ==================================== */
-
-/* Refined Glassmorphism (Highly sensitive to light/dark mode variables) */
-.glass-effect {
-  backdrop-filter: blur(15px); /* Increased blur for better depth */
-  background: var(--color-glass-bg); /* Dynamic */
-  border: 1px solid var(--color-glass-border); /* Dynamic */
-  /* Added a subtle, theme-aware color shadow for "colorful cards" */
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 10px var(--color-card-shadow); 
-}
-
-.glass-text {
-    /* Made background more defined (use glass bg) for subtle colorful text block */
-    background: var(--color-glass-bg); 
-    border: 1px solid var(--color-glass-border); /* Dynamic */
-    /* Added subtle hover effect to the text box */
-    transition: border 0.3s ease, background-color 0.3s ease;
-}
-
-.glass-text:hover {
-    border: 1px solid var(--color-secondary-highlight);
-}
-
-
-/* 🌊 Floating Glow Blob - Adjusted for Hero Image */
-.hero-glow {
-  position: absolute;
-  width: 400px;
-  height: 400px;
-  /* Glow now uses the primary glow variable */
-  background: radial-gradient(circle, var(--color-primary-glow), transparent 70%); /* Dynamic */
-  filter: blur(100px);
-  animation: floatGlow 12s ease-in-out infinite alternate;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-}
-
-
-/* Dark Mode Shadow Overwrite: Deeper, more scattered glow */
-.dark .glass-effect {
-    /* FIX: Deeper, more scattered glow */
-    box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.6), 0 0 30px var(--color-card-shadow); 
-}
-
-/* The subtle text block also uses the glass styling */
-
-@keyframes floatGlow {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    transform: translate(-45%, -55%) scale(1.05);
-  }
-}
-
-
-/* Dynamic Animated Border (More complex gradient) */
-.animated-border::before {
-    content: '';
-    position: absolute;
-    top: -3px; 
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    border-radius: 22px; /* Adjusted radius to match card */
-    padding: 3px;
-  
-    background-size: 600% 600%; 
-    animation: gradientBorder 10s linear infinite; 
-    z-index: -1;
-    opacity: 0.9;
-}
-
-/* NEW: Disable the intense animated border in Light Mode for a cleaner look */
-.light .animated-border::before {
-    opacity: 0; /* Hide the intense animation */
-    transition: opacity 0.5s;
-    background: none; /* Ensure no residual color */
-    border: 1px solid var(--color-primary); /* Simple static primary color border for definition */
-}
-/* Re-enable the animation opacity on hover in light mode for a flash effect */
-.light .animated-border:hover::before {
-    opacity: 0.6;
-}
-
-
-@keyframes gradientBorder {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
-
-/* --- Floating Particles Styles (Updated for Light Mode visibility) --- */
-.particles-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 1; 
-    pointer-events: none; 
-}
-
-.floating-particle {
-    position: absolute;
-    width: var(--size);
-    height: var(--size);
-    border-radius: 50%;
-    opacity: 0.5;
-    filter: blur(0.5px); 
-    
-    top: var(--top); 
-    left: var(--left);
-    
-    animation: particleFloat var(--duration) infinite ease-in-out alternate,
-               particleFade var(--duration) infinite ease-in-out alternate;
-    animation-delay: var(--delay);
-}
-
-/* Light Mode Particles: Subtle, faint gray/white dust */
-.light .floating-particle {
-    background: rgba(100, 100, 100, 0.4); 
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); 
-}
-/* Dark Mode Particles: Vibrant, neon glow */
-.dark .floating-particle {
-    background: var(--color-secondary-highlight); 
-    box-shadow: 0 0 5px var(--color-secondary-highlight);
-}
-
-
-@keyframes particleFloat {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, -50px); }
-}
-
-@keyframes particleFade {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 0.8; }
-}
-
-
-
-/* ✨ Aurora Background Flow (Colors remain fixed for dramatic effect) */
-.aurora-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 0;
-}
-
-.aurora-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(150px);
-    opacity: 0.4;
-    animation: auroraFlow 15s ease-in-out infinite alternate;
-}
-
-.blob-1 {
-    width: 400px;
-    height: 400px;
-    background-color: #ff00cc; /* Pink (Fixed) */
-    top: 10%;
-    left: -10%;
-    animation-delay: 0s;
-}
-
-.blob-2 {
-    width: 300px;
-    height: 300px;
-    background-color: #00ffff; /* Cyan (Fixed) */
-    bottom: 20%;
-    right: -10%;
-    animation-delay: 5s;
-}
-
-.blob-3 {
-    width: 500px;
-    height: 500px;
-    background-color: #3333ff; /* Blue (Fixed) */
-    top: 50%;
-    left: 40%;
-    animation-delay: 10s;
-}
-
-@keyframes auroraFlow {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(50px, -50px) scale(1.1); }
-}
-
+.glass-effect { backdrop-filter: blur(15px); background: var(--color-glass-bg); border: 1px solid var(--color-glass-border); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 0 0 10px var(--color-card-shadow); }
+.glass-text { background: var(--color-glass-bg); border: 1px solid var(--color-glass-border); transition: border 0.3s ease, background-color 0.3s ease; }
+.glass-text:hover { border: 1px solid var(--color-secondary-highlight); }
+.hero-glow { position: absolute; width: 400px; height: 400px; background: radial-gradient(circle, var(--color-primary-glow), transparent 70%); filter: blur(100px); animation: floatGlow 12s ease-in-out infinite alternate; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; }
+.dark .glass-effect { box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.6), 0 0 30px var(--color-card-shadow); }
+@keyframes floatGlow { 0% { transform: translate(-50%, -50%) scale(1); } 100% { transform: translate(-45%, -55%) scale(1.05); } }
+.animated-border::before { content: ''; position: absolute; top: -3px; left: -3px; right: -3px; bottom: -3px; border-radius: 22px; padding: 3px; background-size: 600% 600%; animation: gradientBorder 10s linear infinite; z-index: -1; opacity: 0.9; }
+.light .animated-border::before { opacity: 0; transition: opacity 0.5s; background: none; border: 1px solid var(--color-primary); }
+.light .animated-border:hover::before { opacity: 0.6; }
+@keyframes gradientBorder { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
+.particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; pointer-events: none; }
+.floating-particle { position: absolute; width: var(--size); height: var(--size); border-radius: 50%; opacity: 0.5; filter: blur(0.5px); top: var(--top); left: var(--left); animation: particleFloat var(--duration) infinite ease-in-out alternate, particleFade var(--duration) infinite ease-in-out alternate; animation-delay: var(--delay); }
+.light .floating-particle { background: rgba(100, 100, 100, 0.4); box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); }
+.dark .floating-particle { background: var(--color-secondary-highlight); box-shadow: 0 0 5px var(--color-secondary-highlight); }
+@keyframes particleFloat { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, -50px); } }
+@keyframes particleFade { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.8; } }
+.aurora-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; }
+.aurora-blob { position: absolute; border-radius: 50%; filter: blur(150px); opacity: 0.4; animation: auroraFlow 15s ease-in-out infinite alternate; }
+.blob-1 { width: 400px; height: 400px; background-color: #ff00cc; top: 10%; left: -10%; animation-delay: 0s; }
+.blob-2 { width: 300px; height: 300px; background-color: #00ffff; bottom: 20%; right: -10%; animation-delay: 5s; }
+.blob-3 { width: 500px; height: 500px; background-color: #3333ff; top: 50%; left: 40%; animation-delay: 10s; }
+@keyframes auroraFlow { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, -50px) scale(1.1); } }
 
 
 /* ==================================== */
@@ -560,7 +409,7 @@
 /* Tablet and Small Desktop Adjustments */
 @media (max-width: 1200px) {
     .hero-row {
-        padding: 60px 20px 40px; /* Reduced padding */
+        padding: 60px 20px 40px; 
     }
     .hero-text-block {
         max-width: 50%;
@@ -573,65 +422,81 @@
 /* Tablet Layout (Vertical Stacking) */
 @media (max-width: 900px) {
     .hero-row {
-        /* FIX: Stack text and image vertically */
         flex-direction: column;
         text-align: center;
         padding: 80px 20px 40px;
     }
     .hero-text-block, .hero-image-block {
-        max-width: 95%; /* Use almost full width */
+        max-width: 95%; 
     }
     .hero-image-block {
-        order: -1; /* Move image to the top */
+        order: -1; 
         margin-bottom: 40px;
     }
     .hero-stats {
-        /* FIX: Two columns on tablet */
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        max-width: 600px; /* Center stats block on tablet */
+        flex-wrap: wrap; 
+        justify-content: space-around;
+        max-width: 600px; 
         margin: 30px auto 0;
+    }
+    .stat-item {
+        flex: 1 1 45%; 
+        max-width: 45%; 
     }
     .hero-title {
         font-size: clamp(1.8rem, 5vw, 2.2rem);
     }
     .main-hero-image {
         max-width: 90%;
-        /* FIX: Remove 3D transformation on smaller screens */
         transform: rotateY(0deg) rotateX(0deg) scale(1);
     }
 }
 
 /* Mobile Layout */
 @media (max-width: 500px) {
-    /* FIX: Top bar stacking (logo/title on one line, controls on another) */
+    /* FIX: Ensure Logo/Title stay on one line (Left) and controls (Right) */
     .top-left-buttons {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        position: static; /* Remove absolute positioning on mobile */
-        margin-bottom: 20px;
-        left: 0;
-        right: 0;
-        padding: 10px;
-    }
-    .hero-header {
-        width: 100%;
+        flex-direction: row; 
+        align-items: center;
         justify-content: space-between;
+        position: static; 
+        padding: 0 5px; 
+        margin-bottom: 10px;
     }
+    .header-left {
+        flex-shrink: 1;
+        gap: 8px;
+        align-items: center;
+    }
+    
     .right-controls {
-        width: 100%;
         justify-content: flex-end;
+        gap: 5px;
+        flex-shrink: 0;
     }
+    .hero-title {
+        font-size: clamp(1.2rem, 3.5vw, 2.5rem);
+    }
+    
     .hero-row {
-        padding-top: 10px; /* Reduced padding after top bar fix */
+        padding-top: 10px; 
     }
     .hero-stats {
-        /* FIX: Single column on mobile */
-        grid-template-columns: 1fr;
+        display: flex;
+        justify-content: space-around;
+        max-width: 100%;
+            margin: 30px auto 0;
+ flex-wrap: wrap; 
+    }
+
+  
+    .stat-item {
+        flex: 1 1 100%;
+        max-width: 45%; 
+        margin: 0 auto;
     }
     .hero-subtitle {
-        font-size: 1.1rem;
+        font-size: 1rem; 
         line-height: 1.5;
     }
     .hero-logo {
@@ -644,6 +509,6 @@
     }
     .login-btn {
         padding: 8px 16px;
-        font-size: 0.9rem;
+        font-size: 0.8rem; 
     }
 }

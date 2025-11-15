@@ -236,30 +236,15 @@ export default function StorySection() {
 
             {/* Read More Button */}
             {!loading && displayStories.length > 10 && (
-                <div style={{ textAlign: "center", marginTop: "50px", zIndex: 5 }}>
+                <div style={{ textAlign: "center", marginTop: "10px", zIndex: 5 }}>
                     <motion.button
+                    className="view-more-btn"
                         whileHover={{ scale: 1.08, boxShadow: "0 0 25px rgba(255,0,238,0.5)" }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setShowMoreModal(true)}
-                        style={{
-                            padding: "14px 40px",
-                            fontSize: "1.2rem",
-                            fontWeight: "700",
-                            letterSpacing: "0.5px",
-                            color: "#fff",
-                            border: "2px solid transparent",
-                            borderRadius: "12px",
-                            background:
-                                "linear-gradient(90deg, rgba(255,0,238,0.2), rgba(0,255,255,0.2))",
-                            backdropFilter: "blur(10px)",
-                            WebkitBackdropFilter: "blur(10px)",
-                            cursor: "pointer",
-                            transition: "all 0.4s ease",
-                            boxShadow: "0 0 15px rgba(0,0,0,0.2)",
-                            borderImage: "linear-gradient(90deg, #ff00cc, #00ffff) 1",
-                        }}
+                        
                     >
-                        <ChevronDown size={30} /> View More
+                        <ChevronDown size={20} /> View More
                     </motion.button>
                 </div>
             )}

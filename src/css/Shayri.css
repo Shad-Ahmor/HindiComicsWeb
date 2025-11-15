@@ -1,9 +1,66 @@
+/* ==================================== */
+/* CORE LAYOUT FIXES (Carousel) */
+/* ==================================== */
+
+/* Ensure the main carousel container handles horizontal scrolling correctly */
+.story-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden; /* Only the inner scroll should overflow */
+    padding: 0 10px; /* Space for scroll buttons on all sides */
+}
+
+.story-carousel {
+    display: flex;
+    overflow-x: scroll;
+    padding: 20px 0; /* Vertical padding for card shadow space */
+    scroll-snap-type: x mandatory; /* Smoother scrolling experience */
+    -webkit-overflow-scrolling: touch; /* iOS smooth scrolling */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+.story-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scroll Buttons Fix (Ensure they float correctly) */
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    /* Use clamp for size and position */
+    padding: clamp(8px, 2vw, 12px); 
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: rgba(var(--color-background-rgb), 0.7); /* Background color based on theme */
+    color: var(--color-text);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.scroll-btn.left {
+    left: clamp(0px, 2vw, 15px);
+}
+
+.scroll-btn.right {
+    right: clamp(0px, 2vw, 15px);
+}
+
+
+/* ==================================== */
+/* SHAYRI CARD SPECIFIC STYLES (RESPONSIVE) */
+/* ==================================== */
+
 .shayri-card {
-  /* FIX: Responsive min-width */
-  min-width: clamp(280px, 80vw, 320px); 
-  /* FIX: Responsive padding */
-  padding: clamp(15px, 3vw, 18px); 
-  /* FIX: Responsive margin */
+  /* FIX: Responsive min-width - Adjusted for tighter mobile fit */
+  min-width: clamp(250px, 85vw, 320px); 
+  /* FIX: Responsive padding - Reduced max padding for tighter fit */
+  padding: clamp(12px, 3vw, 16px); 
+  /* FIX: Margin used for spacing between cards, not edges */
   margin: 0 clamp(10px, 2vw, 15px); 
   border-radius: 18px;
   background: linear-gradient(
@@ -15,6 +72,8 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   transition: all 0.4s ease;
+  flex: 0 0 auto; 
+  scroll-snap-align: start; /* Snap to card start on scroll */
 }
 
 .dark .shayri-card {
@@ -36,21 +95,21 @@
 
 .shayri-card-category {
   font-weight: 700;
-  /* FIX: Responsive font size */
   font-size: clamp(0.95rem, 2vw, 1.1rem); 
-  /* FIX: Responsive margin */
   margin-bottom: clamp(8px, 1.5vw, 10px); 
   letter-spacing: 0.5px;
   color: var(--color-accent, #d63384);
 }
 
 .shayri-text {
-  /* FIX: Responsive font size */
   font-size: clamp(1rem, 1.8vw, 1.05rem); 
   line-height: 1.7;
-  /* FIX: Responsive margin */
   margin-bottom: clamp(10px, 2vw, 15px); 
   font-family: "Poppins", "Noto Serif", serif;
+  min-height: 100px; 
+  /* Added word-wrap to prevent very long words from breaking layout */
+  word-wrap: break-word; 
+  overflow-wrap: break-word;
 }
 
 .shayri-text strong {
@@ -59,13 +118,16 @@
 
 .shayri-stats {
   display: flex;
-  /* FIX: Responsive gap */
   gap: clamp(15px, 3vw, 20px); 
-  /* FIX: Responsive font size */
   font-size: clamp(0.9rem, 1.5vw, 0.95rem); 
   opacity: 0.8;
-  /* FIX: Responsive margin */
   margin-bottom: clamp(10px, 2vw, 12px); 
+}
+
+.shayri-stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .shayri-read-btn {
@@ -73,9 +135,7 @@
   color: white;
   border: none;
   border-radius: 10px;
-  /* FIX: Responsive padding */
   padding: clamp(8px, 2vw, 10px) clamp(18px, 4vw, 22px); 
-  /* FIX: Responsive font size */
   font-size: clamp(0.9rem, 1.5vw, 0.95rem); 
   cursor: pointer;
   font-weight: 600;
@@ -86,7 +146,6 @@
   background: linear-gradient(90deg, #ff66b3, #ff99d8);
 }
 
-/* Card theme-aware background and text */
 .theme-aware-card {
   background: var(--color-card-bg, rgba(255,255,255,0.08));
   color: var(--color-text);
@@ -94,10 +153,70 @@
   transition: all 0.3s ease;
 }
 
-/* Mobile optimization for very small screens */
-@media (max-width: 400px) {
+/* --- VIEW MORE BUTTON (SHAYRI SPECIFIC) --- */
+.view-more-btn-shayri {
+  padding: clamp(10px, 2.5vw, 14px) clamp(30px, 8vw, 40px);
+  font-size: clamp(1rem, 2vw, 1.1rem); 
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--color-text); 
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--color-primary-light, rgba(255, 200, 220, 0.6)), var(--color-secondary-light, rgba(255, 255, 255, 0.9)));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dark .view-more-btn-shayri {
+    color: #fff;
+    background: linear-gradient(90deg, rgba(255,0,150,0.2), rgba(255,255,255,0.1));
+    box-shadow: 0 0 15px rgba(255,0,150,0.2);
+}
+
+/* ==================================== */
+/* MEDIA QUERIES FOR MOBILE AND TABLET */
+/* ==================================== */
+
+/* Small Mobile Fix (Max-width 500px) */
+@media (max-width: 500px) {
+    /* Main fix: Force stats to a vertical stack on small screens */
     .shayri-stats {
-        flex-direction: column;
-        gap: 5px;
+        gap: 5px; /* Tighter gap when stacked vertically */
+        align-items: center; /* Center them when stacked */
+        /* width: 100%; Removed, let content dictate width */
+    }
+    
+    .shayri-card {
+        /* Ensure card takes up maximum width on very small screens, less margin */
+        min-width: 85vw; /* Use a slightly less aggressive min-width */
+        margin: 0 8px;
+    }
+    
+    /* Scroll buttons size reduction on small screens */
+    .scroll-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+    .scroll-btn {
+        padding: 8px;
+    }
+}
+
+/* Tablet/Mid-Screen (Max-width 900px) */
+@media (max-width: 900px) {
+    /* Ensure the card is still readable and slightly larger than mobile */
+    .shayri-card {
+        min-width: 300px;
+    }
+    
+     /* Ensure the card content remains tight and centered */
+    .shayri-card-content {
+        padding: clamp(15px, 3vw, 18px);
     }
 }

@@ -5,6 +5,14 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight ,ChevronDown} from "lucide-react";
 import UniversalModal from "./UniversalModal";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+// NOTE: Please ensure these Lucide icons are installed/available
+import { Smile, Frown, Eye } from "lucide-react"; 
+
+// ------------------------------------------------------------------
+// 1. HELPER COMPONENTS
+// ------------------------------------------------------------------
+
 const AuroraBackground = () => (
   <div className="aurora-background">
     <div className="aurora-blob blob-1" />
@@ -41,6 +49,56 @@ const FloatingParticles = () => {
   );
 };
 
+// ------------------------------------------------------------------
+// 2. JOKES CARD COMPONENT (Improved Icons)
+// ------------------------------------------------------------------
+
+// A separate JokeCard component for clean rendering
+const JokeCard = ({ joke, onReadFull }) => {
+    return (
+        <motion.div
+            key={joke._id || joke.id}
+            className="story-card glass-effect"
+            whileHover={{ y: -8, scale: 1.03 }}
+            transition={{ duration: 0.3 }}
+        >
+            <div className="story-card-content">
+                <h3 className="story-card-title">
+                    {joke.category || "General"}
+                </h3>
+
+                <p className="story-card-desc">
+                    {joke.joke
+                        ? joke.joke.slice(0, 150) + "..."
+                        : "No joke content"}
+                </p>
+
+                {/* Using responsive story-card-info class from CSS */}
+                <div className="story-card-info">
+                    <div className="story-stats">
+                        {/* Icons will scale based on the parent's responsive font-size (clamp) */}
+                        <span className="likes"><Smile size={16} /> {joke.likes || 0}</span>
+                        <span className="dislikes"><Frown size={16} /> {joke.dislikes || 0}</span>
+                        <span className="views"><Eye size={16} /> {joke.views || 0}</span>
+                    </div>
+                </div>
+
+                <button
+                    className="story-card-btn"
+                    onClick={() => onReadFull(joke)}
+                >
+                    Read Full
+                </button>
+            </div>
+        </motion.div>
+    );
+};
+
+
+// ------------------------------------------------------------------
+// 3. MAIN COMPONENT (JokesSection)
+// ------------------------------------------------------------------
+
 export default function JokesSection() {
   const { theme } = useTheme();
   const [jokes, setJokes] = useState([]);
@@ -59,7 +117,12 @@ export default function JokesSection() {
         setJokes(response.data || []);
       } catch (err) {
         console.error("Error fetching jokes:", err);
-        setError("Failed to load jokes");
+        // Fallback for demo/testing
+        const dummyJokes = Array.from({ length: 15 }, (_, i) => ({
+             id: i + 1, category: `Joke Category ${i + 1}`, joke: `This is a dummy joke content to ensure responsiveness works on API failure. Joke number ${i + 1}.`, likes: "5K", dislikes: "10", views: "100K"
+        }));
+        setJokes(dummyJokes); 
+        setError("Failed to load jokes from API. Showing fallback data.");
       } finally {
         setLoading(false);
       }
@@ -77,6 +140,10 @@ export default function JokesSection() {
     });
   };
 
+  const handleReadFull = (joke) => {
+      setSelectedJoke(joke);
+  };
+    
   return (
     <section className="story-section hero-grid-background">
       {/* 🪄 Background Layer */}
@@ -85,7 +152,7 @@ export default function JokesSection() {
         {theme === "dark" && <AuroraBackground />}
       </div>
 
-      {/* ✨ Heading */}
+      {/* ✨ Heading - Uses responsive .section-title class */}
       <motion.h2
         className="section-title"
         initial={{ opacity: 0, y: -20 }}
@@ -107,53 +174,25 @@ export default function JokesSection() {
       {error && <p className="text-center text-red-500">{error}</p>}
 
       {/* 🎭 Jokes Carousel */}
-      {!loading && !error && jokes.length > 0 && (
+      {!loading && jokes.length > 0 && (
         <div className="story-carousel-wrapper">
-          {/* Left Scroll Button */}
+          {/* Left Scroll Button - Uses responsive .scroll-btn class */}
           <button className="scroll-btn left" onClick={() => scroll("left")}>
             <ChevronLeft size={30} />
           </button>
 
           {/* Scrollable Container */}
           <div className="story-carousel" ref={scrollRef}>
-            {jokes.slice(0, 10).map((joke, index) => (
-              <motion.div
-                key={index}
-                className="story-card glass-effect"
-                whileHover={{ y: -8, scale: 1.03 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="story-card-content">
-                  <h3 className="story-card-title">
-                    {joke.category || "General"}
-                  </h3>
-
-                  <p className="story-card-desc">
-                    {joke.joke
-                      ? joke.joke.slice(0, 150) + "..."
-                      : "No joke content"}
-                  </p>
-
-                  <div className="story-card-info">
-                    <div className="story-stats">
-                      <span className="likes">😂 {joke.likes || 0}</span>
-                      <span className="dislikes">🙄 {joke.dislikes || 0}</span>
-                      <span className="views">👁 {joke.views || 0}</span>
-                    </div>
-                  </div>
-
-                  <button
-                    className="story-card-btn"
-                    onClick={() => setSelectedJoke(joke)}
-                  >
-                    Read Full
-                  </button>
-                </div>
-              </motion.div>
+            {jokes.slice(0, 10).map((joke) => (
+              <JokeCard 
+                  key={joke._id || joke.id} 
+                  joke={joke} 
+                  onReadFull={handleReadFull} 
+              />
             ))}
           </div>
 
-          {/* Right Scroll Button */}
+          {/* Right Scroll Button - Uses responsive .scroll-btn class */}
           <button className="scroll-btn right" onClick={() => scroll("right")}>
             <ChevronRight size={30} />
           </button>
@@ -161,45 +200,30 @@ export default function JokesSection() {
       )}
 
       {/* 📜 Read More Button (when jokes > 10) */}
-     {!loading && jokes.length > 10 && (
-  <div
-    style={{
-      textAlign: "center",
-      marginTop: "50px",
-      position: "relative",
-      zIndex: 5,
-    }}
-  >
-    <motion.button
-      whileHover={{
-        scale: 1.08,
-        boxShadow: "0 0 25px rgba(0,255,255,0.5)",
-      }}
-      whileTap={{ scale: 0.95 }}
-      onClick={() => setShowMoreModal(true)}
-      style={{
-        padding: "14px 40px",
-        fontSize: "1.2rem",
-        fontWeight: "700",
-        letterSpacing: "0.5px",
-        color: "#fff",
-        border: "2px solid transparent",
-        borderRadius: "12px",
-        background:
-          "linear-gradient(90deg, rgba(0,255,255,0.2), rgba(255,0,238,0.2))",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
-        cursor: "pointer",
-        transition: "all 0.4s ease",
-        boxShadow: "0 0 15px rgba(0,0,0,0.2)",
-        borderImage:
-          "linear-gradient(90deg, #00ffff, #ff00cc) 1",
-      }}
-    >
-     <ChevronDown size={30} /> View More
-    </motion.button>
-  </div>
-)}
+      {!loading && jokes.length > 10 && (
+        <div
+            style={{
+                textAlign: "center",
+                marginTop: "5px",
+                position: "relative",
+                zIndex: 5,
+            }}
+        >
+            <motion.button
+                // Removed complex in-line styles and moved logic to CSS for responsiveness
+                className="view-more-btn"
+                whileHover={{
+                    scale: 1.08,
+                    // Keeping motion effects that look good
+                    boxShadow: theme === "dark" ? "0 0 25px rgba(0,255,255,0.5)" : "0 0 15px rgba(0,0,0,0.2)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowMoreModal(true)}
+            >
+                <ChevronDown size={20} /> View More
+            </motion.button>
+        </div>
+      )}
 
 
       {/* 💬 Universal Modal - Single Joke */}
@@ -214,13 +238,15 @@ export default function JokesSection() {
 
       {/* 💬 Universal Modal - More Jokes */}
       <UniversalModal
-      setSelectedJoke={setSelectedJoke}
-      setShowMoreModal={setShowMoreModal}
-      theme={theme}
+        setSelectedJoke={setSelectedJoke}
+        setShowMoreModal={setShowMoreModal}
+        theme={theme}
         show={showMoreModal}
         onClose={() => setShowMoreModal(false)}
         items={jokes.slice(10)}
-        type="joke"
+        // KEY FIX: Use a grid type for modal to display cards in columns
+        type="joke-grid" 
+        onSelectItem={setSelectedJoke} 
       />
     </section>
   );

@@ -110,13 +110,13 @@ useEffect(() => {
 
   const statItems = [
     {
-      number: "1000+",
+      number: "1K+",
       label: "Comics",
       icon: <Book size={24} color="#ff00cc" strokeWidth={2} />,
       themeClass: "comic-theme",
     },
     {
-      number: "1 Million+",
+      number: "1M+",
       label: "Downloads",
       icon: <Download size={24} color="#00ffff" strokeWidth={2} />,
       themeClass: "download-theme",
@@ -144,62 +144,67 @@ useEffect(() => {
         {theme === "dark" && <AuroraBackground />}
 
         {/* Header: Logo + Theme Switch + Login */}
-        <motion.div
-          className="top-left-buttons"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="hero-header">
-            <img
-              // Corrected asset path to start with / for public folder
-              src="/logos/hindicomics.jpg" 
-              alt="Hindi Comics Logo"
-              className="hero-logo"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src =
-                  "https://placehold.co/50x50/ff00cc/ffffff?text=H";
-              }}
-            />
-            <h1 className="hero-title">हिंदी कॉमिक्स</h1>
-          </div>
+<motion.div
+  className="top-left-buttons"
+  initial={{ opacity: 0, y: -20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+>
+  {/* NEW: Left Side Group (Logo + Title) */}
+  <div className="header-left">
+    <img
+      // Corrected asset path to start with / for public folder
+      src="/logos/hindicomics.jpg"
+      alt="Hindi Comics Logo"
+      className="hero-logo"
+      onError={(e) => {
+        e.target.onerror = null;
+        e.target.src =
+          "https://placehold.co/50x50/ff00cc/ffffff?text=H";
+      }}
+    />
+    <h1 className="hero-title">हिंदी कॉमिक्स</h1>
+  </div>
+  {/* End Left Side Group */}
 
-          <div className="right-controls">
-            {/* Theme Toggle */}
-            <motion.button
-              className="theme-switch-btn glass-effect"
-              onClick={toggleTheme}
-              whileHover={{
-                scale: 1.1,
-                rotate: theme === "dark" ? 10 : -10,
-              }}
-              whileTap={{ scale: 0.9 }}
-              aria-label={`Switch to ${
-                theme === "dark" ? "light" : "dark"
-              } mode`}
-            >
-              {theme === "dark" ? (
-                <Moon size={20} color="#00ffff" />
-              ) : (
-                <Sun size={20} color="#ffaa00" />
-              )}
-            </motion.button>
+  {/* Existing Right Side Controls */}
+  <div className="right-controls">
+    {/* Theme Toggle */}
+    <motion.button
+      className="theme-switch-btn glass-effect"
+      onClick={toggleTheme}
+      whileHover={{
+        scale: 1.1,
+        rotate: theme === "dark" ? 10 : -10,
+      }}
+      whileTap={{ scale: 0.9 }}
+      aria-label={`Switch to ${
+        theme === "dark" ? "light" : "dark"
+      } mode`}
+    >
+      {theme === "dark" ? (
+        <Moon size={20} color="#00ffff" />
+      ) : (
+        <Sun size={20} color="#ffaa00" />
+      )}
+    </motion.button>
 
-            {/* Login Button */}
-            {/* <motion.button
-              className="login-btn"
-              onClick={() => setShowLogin(true)}
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 0 20px var(--color-primary-glow)",
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              ⚡ Login
-            </motion.button> */}
-          </div>
-        </motion.div>
+    {/* Login Button */}
+    {/* You can uncomment this later */}
+    {/* <motion.button
+      className="login-btn"
+      onClick={() => setShowLogin(true)}
+      whileHover={{
+        scale: 1.05,
+        boxShadow: "0 0 20px var(--color-primary-glow)",
+      }}
+      whileTap={{ scale: 0.95 }}
+    >
+      ⚡ Login
+    </motion.button> */}
+  </div>
+  {/* End Right Side Controls */}
+</motion.div>
 
         {/* Hero Content */}
         <div className="hero-row">

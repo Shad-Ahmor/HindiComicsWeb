@@ -2,9 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useTheme } from "./ThemeContext";
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
+// Reduced size for better visual balance
+import { ChevronLeft, ChevronRight, ChevronDown, Heart, Eye } from "lucide-react"; 
 import UniversalModal from "./UniversalModal";
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 const AuroraBackground = () => (
   <div className="aurora-background">
     <div className="aurora-blob blob-1" />
@@ -41,6 +44,56 @@ const FloatingParticles = () => {
   );
 };
 
+// Shayri Card Component for cleaner rendering
+const ShayriCard = ({ shayri, onReadFull }) => {
+    // Determine the text to display in the card (shortened)
+    const cardText = shayri.shayri ? shayri.shayri.slice(0, 200) + "..." : "No content";
+
+    // Format **bold** and \n line breaks
+    const formatShayriText = (text) => {
+        if (!text) return "";
+        const withBold = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+        return withBold.replace(/\n/g, "<br/>");
+    };
+
+    return (
+        <motion.div
+            key={shayri._id || shayri.id}
+            className="shayri-card theme-aware-card"
+            whileHover={{ y: -8, scale: 1.03 }}
+            transition={{ duration: 0.3 }}
+        >
+            <div className="shayri-card-content">
+                <h3 className="shayri-card-category">
+                    {shayri.category || "Uncategorized"}
+                </h3>
+
+                <p
+                    className="shayri-text"
+                    dangerouslySetInnerHTML={{
+                        __html: formatShayriText(cardText),
+                    }}
+                />
+
+                <div className="shayri-stats">
+                    {/* Icons size is implicitly set by responsive font-size or fixed smaller size */}
+                    <span><Heart size={16} style={{ color: 'var(--color-accent, #d63384)' }} /> {shayri.likes || 0}</span>
+                    <span><Eye size={16} /> {shayri.views || 0}</span>
+                </div>
+
+                <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    className="shayri-read-btn"
+                    onClick={() => onReadFull(shayri)}
+                >
+                    Read Full
+                </motion.button>
+            </div>
+        </motion.div>
+    );
+};
+
+
 export default function ShayriSection() {
   const { theme } = useTheme();
   const [shayris, setShayris] = useState([]);
@@ -59,7 +112,12 @@ export default function ShayriSection() {
         setShayris(response.data || []);
       } catch (err) {
         console.error("Error fetching shayris:", err);
-        setError("Failed to load shayaris");
+        // Fallback for demo/testing
+        const dummyShayris = Array.from({ length: 15 }, (_, i) => ({
+             id: i + 1, category: `Love Shayri ${i + 1}`, shayri: `**मोहब्बत** का सफ़र है, आहिस्ता **चल** मेरे दिल।\nवो **याद** आएगी, मगर **रोने** से क्या फ़ायदा।\nशायरी नंबर ${i + 1}`, likes: "12K", views: "300K"
+        }));
+        setShayris(dummyShayris); 
+        setError("Failed to load shayaris from API. Showing fallback data.");
       } finally {
         setLoading(false);
       }
@@ -76,12 +134,9 @@ export default function ShayriSection() {
       behavior: "smooth",
     });
   };
-
-  // Format **bold** and \n line breaks
-  const formatShayriText = (text) => {
-    if (!text) return "";
-    const withBold = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-    return withBold.replace(/\n/g, "<br/>");
+  
+  const handleReadFull = (shayri) => {
+      setSelectedShayri(shayri);
   };
 
   return (
@@ -92,7 +147,7 @@ export default function ShayriSection() {
         {theme === "dark" && <AuroraBackground />}
       </div>
 
-      {/* 💞 Heading */}
+      {/* 💞 Heading - Uses responsive .section-title class */}
       <motion.h2
         className="section-title"
         initial={{ opacity: 0, y: -20 }}
@@ -114,53 +169,24 @@ export default function ShayriSection() {
       {error && <p className="text-center text-red-500">{error}</p>}
 
       {/* 💌 Shayari Carousel */}
-      {!loading && !error && shayris.length > 0 && (
+      {!loading && shayris.length > 0 && (
         <div className="story-carousel-wrapper">
           <button className="scroll-btn left" onClick={() => scroll("left")}>
-            <ChevronLeft size={30} />
+            <ChevronLeft size={24} /> {/* Reduced size */}
           </button>
 
           <div className="story-carousel" ref={scrollRef}>
-            {shayris.slice(0, 10).map((shayri, index) => (
-              <motion.div
-                key={index}
-                className="shayri-card"
-                whileHover={{ y: -8, scale: 1.03 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="shayri-card-content">
-                  <h3 className="shayri-card-category">
-                    {shayri.category || "Uncategorized"}
-                  </h3>
-
-                  <p
-                    className="shayri-text"
-                    dangerouslySetInnerHTML={{
-                      __html: formatShayriText(
-                        shayri.shayri?.slice(0, 200) + "..."
-                      ),
-                    }}
-                  />
-
-                  <div className="shayri-stats">
-                    <span>❤️ {shayri.likes || 0}</span>
-                    <span>👁 {shayri.views || 0}</span>
-                  </div>
-
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    className="shayri-read-btn"
-                    onClick={() => setSelectedShayri(shayri)}
-                  >
-                    Read Full
-                  </motion.button>
-                </div>
-              </motion.div>
+            {shayris.slice(0, 10).map((shayri) => (
+              <ShayriCard 
+                  key={shayri._id || shayri.id} 
+                  shayri={shayri} 
+                  onReadFull={handleReadFull} 
+              />
             ))}
           </div>
 
           <button className="scroll-btn right" onClick={() => scroll("right")}>
-            <ChevronRight size={30} />
+            <ChevronRight size={24} /> {/* Reduced size */}
           </button>
         </div>
       )}
@@ -176,34 +202,17 @@ export default function ShayriSection() {
           }}
         >
           <motion.button
+            // Use the dedicated Shayri View More Button Class
+            className="view-more-btn-shayri" 
             whileHover={{
               scale: 1.08,
-              boxShadow: "0 0 25px rgba(255,0,180,0.4)",
+              boxShadow: theme === "dark" ? "0 0 25px rgba(255,0,180,0.4)" : "0 0 15px rgba(0,0,0,0.2)",
             }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowMoreModal(true)}
-            style={{
-              padding: "14px 40px",
-              fontSize: "1.1rem",
-              fontWeight: "600",
-              letterSpacing: "0.5px",
-              color: theme === "dark" ? "#fff" : "#222",
-              border: "2px solid transparent",
-              borderRadius: "12px",
-              background:
-                theme === "dark"
-                  ? "linear-gradient(90deg, rgba(255,0,150,0.2), rgba(255,255,255,0.1))"
-                  : "linear-gradient(90deg, rgba(255,200,220,0.6), rgba(255,255,255,0.9))",
-              backdropFilter: "blur(10px)",
-              cursor: "pointer",
-              transition: "all 0.4s ease",
-              boxShadow:
-                theme === "dark"
-                  ? "0 0 15px rgba(255,0,150,0.2)"
-                  : "0 0 8px rgba(0,0,0,0.1)",
-            }}
           >
-            <ChevronDown size={25} /> View More
+            <ChevronDown size={20} /> {/* Reduced size for smaller button */}
+            View More
           </motion.button>
         </div>
       )}
@@ -226,7 +235,9 @@ export default function ShayriSection() {
         show={showMoreModal}
         onClose={() => setShowMoreModal(false)}
         items={shayris.slice(10)}
-        type="shayari"
+        // KEY FIX: Use a grid type for modal to display cards in columns
+        type="shayari-grid" 
+        onSelectItem={setSelectedShayri}
       />
     </section>
   );

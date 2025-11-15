@@ -1,3 +1,58 @@
+/* ==================================== */
+/* 0. CORE STORY/JOKE/SHAYARI STYLING (GLASS EFFECT & BASE) */
+/* ==================================== */
+
+.story-section {
+  position: relative;
+  overflow: hidden;
+  /* FIX: Responsive padding for section */
+  padding: clamp(60px, 8vh, 100px) clamp(20px, 5vw, 50px); 
+  background-color: var(--color-background);
+}
+
+.story-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.story-section > * {
+  position: relative;
+  z-index: 2; /* Content above background effects */
+}
+
+/* Optional subtle gradient fade between Hero and Story */
+.story-section::before {
+  content: "";
+  position: absolute;
+  top: -150px;
+  left: 0;
+  right: 0;
+  height: 150px;
+ 
+  z-index: 1;
+}
+
+/* --- SECTION TITLE (Fix for Responsiveness) --- */
+.section-title {
+  text-align: center;
+  /* KEY FIX: Responsive font size (1.8rem on mobile, 2.8rem on desktop) */
+  font-size: clamp(1.5rem, 4.5vw, 2.8rem); 
+  font-weight: 900;
+  /* FIX: Responsive margin */
+  margin-bottom: clamp(30px, 6vw, 60px); 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--section-title-color); /* dynamic color */
+  text-shadow: var(--section-title-shadow);
+  transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+
+/* ==================================== */
+/* 1. STORY CARD STYLING (GENERAL) */
+/* ==================================== */
+
 .story-card {
   width: 100%;
   max-width: 320px;
@@ -13,7 +68,6 @@
   overflow: hidden;
   position: relative;
   cursor: pointer;
-    /* FIX: Changed fixed #fff to dynamic var(--color-text) */
     color: var(--color-text); 
   /* FIX: Adjusted min-height for slightly better proportion */
   min-height: clamp(280px, 40vh, 350px); 
@@ -26,49 +80,10 @@
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 35px var(--color-primary-glow);
 }
 
-/* --- STORY GRID LAYOUT (Optimized for Responsiveness) --- */
-.story-grid {
-  display: grid;
-  max-width: 1400px;
-  margin: 0 auto;
-  /* FIX: Auto-fit with responsive minmax for column sizing */
-  grid-template-columns: repeat(auto-fit, minmax(clamp(240px, 25vw, 320px), 1fr));
-  gap: clamp(20px, 4vw, 35px); /* Responsive gap */
-  justify-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 5;
-  padding: 0 10px; /* Add slight padding for very narrow screens */
-}
-
-/* Desktop (Original rule maintained) */
-@media (min-width: 1200px) {
-  .story-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Tablet (Original rule maintained) */
-@media (max-width: 768px) {
-  .story-grid {
-    grid-template-columns: repeat(2, minmax(240px, 1fr));
-    gap: 25px;
-  }
-}
-
-/* Mobile (Original rule maintained) */
-@media (max-width: 550px) {
-  .story-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-}
-
-
 /* Image */
 .story-card img {
   width: 100%;
-  /* FIX: Responsive image height using clamp */
+  /* FIX: Responsive image height using clamp (for GRID use) */
   height: clamp(150px, 18vh, 200px); 
   object-fit: cover;
   transition: transform 0.6s ease;
@@ -101,6 +116,8 @@
   white-space: nowrap;
   letter-spacing: 0.3px;
 }
+
+/* Meta */
 .story-meta {
   display: flex;
   justify-content: space-between;
@@ -116,7 +133,6 @@
   align-items: center;
   gap: 5px;
 }
-
 
 .story-meta .story-category {
   font-weight: 700;
@@ -181,6 +197,8 @@
   font-weight: 700;
   letter-spacing: 0.5px;
 }
+
+/* Button */
 .story-card-btn {
   margin-top: 18px;
   width: 100%;
@@ -209,6 +227,7 @@
     0 0 25px var(--color-primary-glow);
 }
 
+/* Dark Mode Overrides */
 .dark .story-card {
   background: var(--color-glass-bg);
   border-color: var(--color-glass-border);
@@ -223,53 +242,55 @@
   border-top-color: var(--color-grid-line);
 }
 
+/* ==================================== */
+/* 2. STORY GRID LAYOUT (View More Modal) */
+/* ==================================== */
 
-/* Shared background layer for Hero and Story sections */
-.story-section {
+.story-grid {
+  display: grid;
+  max-width: 1400px;
+  margin: 0 auto;
+  /* FIX: Auto-fit with responsive minmax for column sizing */
+  grid-template-columns: repeat(auto-fit, minmax(clamp(240px, 25vw, 320px), 1fr));
+  gap: clamp(20px, 4vw, 35px); /* Responsive gap */
+  justify-items: center;
+  justify-content: center;
   position: relative;
-  overflow: hidden;
-  /* FIX: Responsive padding */
-  padding: clamp(60px, 8vh, 100px) clamp(20px, 5vw, 50px); 
-  background-color: var(--color-background);
+  z-index: 5;
+  padding: 0 10px; /* Add slight padding for very narrow screens */
 }
 
-.story-bg-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
+/* Desktop (1200px+) */
+@media (min-width: 1200px) {
+  .story-grid {
+    /* Explicit 4 columns for large screens */
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
 }
 
-.story-section > * {
-  position: relative;
-  z-index: 2; /* So content stays above aurora and particles */
-}
-.section-title {
-  text-align: center;
-  /* FIX: Responsive font size */
-  font-size: clamp(1.8rem, 4.5vw, 2.8rem); 
-  font-weight: 900;
-  /* FIX: Responsive margin */
-  margin-bottom: clamp(30px, 6vw, 60px); 
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--section-title-color); /* dynamic color */
-  text-shadow: var(--section-title-shadow);
-  transition: color 0.5s ease, text-shadow 0.5s ease;
-}
-/* Optional subtle gradient fade between Hero and Story */
-.story-section::before {
-  content: "";
-  position: absolute;
-  top: -150px;
-  left: 0;
-  right: 0;
-  height: 150px;
- 
-  z-index: 1;
+/* Tablet (max-width: 768px, covers ~900px goal) */
+@media (max-width: 768px) {
+  .story-grid {
+    /* 2 columns for tablet screens */
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    gap: 25px;
+  }
 }
 
-/* ---- STORY CAROUSEL WRAPPER ---- */
+/* Mobile (max-width: 550px, covers ~500px goal) */
+@media (max-width: 550px) {
+  .story-grid {
+    /* 1 column for mobile screens */
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* ==================================== */
+/* 3. STORY CAROUSEL STYLING */
+/* ==================================== */
+
 .story-carousel-wrapper {
   position: relative;
   max-width: 100%;         /* full width */
@@ -279,7 +300,6 @@
   overflow: hidden;
 }
 
-/* ---- SCROLLABLE AREA ---- */
 .story-carousel {
   /* FIX: Responsive padding */
   padding: clamp(2rem, 5vh, 4rem) 0; 
@@ -295,90 +315,65 @@
   display: none;
 }
 
-
 /* ---- STORY CARD (Carousel specific styles) ---- */
-/* NOTE: Replaced the redundant .story-card block with the original, keeping flex sizing */
-.story-card {
-  /* FIX: Responsive card width for carousel */
-  flex: 0 0 clamp(250px, 35vw, 300px);          
-  background: var(--color-glass-bg);
-  border-radius: 18px;
-  overflow: hidden;
+/* NOTE: Redefining .story-card for carousel specific properties */
+.story-carousel .story-card {
+  /* KEY FIX: Carousel cards MUST use flex-shrink: 0 to stay in a row */
+  flex: 0 0 clamp(250px, 35vw, 300px);  
+  /* The max-width override below is for the card when used in the carousel, 
+     to allow it to be wider than the general 320px rule if clamp allows. */
+  max-width: none; 
+  /* Responsive card width for carousel */
+  min-height: clamp(300px, 45vh, 380px); 
+  /* Overriding general story-card styles for cleaner carousel look */
   box-shadow: 0 6px 20px var(--color-card-shadow);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.story-card:hover {
+.story-carousel .story-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 30px var(--color-primary-glow);
 }
 
-.story-card img {
-  width: 100%;
-  /* FIX: Responsive image height */
+.story-carousel .story-card img {
+  /* FIX: Responsive image height for carousel */
   height: clamp(140px, 15vh, 160px); 
-  object-fit: cover;
 }
 
-
-
-.story-card-content {
-  /* FIX: Responsive padding */
+.story-carousel .story-card-content {
+  /* FIX: Responsive padding for carousel content */
   padding: clamp(12px, 2vw, 15px); 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-.story-card-title {
-  /* FIX: Responsive font size */
+.story-carousel .story-card-title {
+  /* FIX: Responsive font size for carousel title */
   font-size: clamp(1.1rem, 2vw, 1.2rem); 
   font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--color-text);
 }
 
-.story-meta {
-  display: flex;
-  justify-content: space-between;
-  /* FIX: Responsive font size */
+.story-carousel .story-meta {
+  /* FIX: Responsive font size for carousel meta */
   font-size: clamp(0.75rem, 1.2vw, 0.85rem); 
   margin-bottom: 8px;
-  color: var(--color-subtle-text);
 }
 
-.story-card-desc {
-  /* FIX: Responsive font size */
+.story-carousel .story-card-desc {
+  /* FIX: Responsive font size for carousel description */
   font-size: clamp(0.8rem, 1.4vw, 0.9rem); 
   line-height: 1.4;
-  color: var(--color-subtle-text);
 }
 
-.story-card-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* FIX: Responsive font size */
+.story-carousel .story-card-info {
+  /* FIX: Responsive font size for carousel info */
   font-size: clamp(0.8rem, 1.5vw, 0.9rem); 
   margin-top: 10px;
 }
 
-.story-card-btn {
+.story-carousel .story-card-btn {
   margin-top: 12px;
-  width: 100%;
-  border: none;
   border-radius: 8px;
-  /* FIX: Responsive padding */
+  /* FIX: Responsive padding for carousel button */
   padding: clamp(8px, 2vw, 10px) 0; 
   font-weight: 700;
-  color: #fff;
-  cursor: pointer;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-highlight));
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.story-card-btn:hover {
-  transform: scale(1.05);
 }
 
 /* ---- SCROLL BUTTONS ---- */
@@ -416,15 +411,25 @@
   right: 10px;
 }
 
-/* Hide scroll buttons on smaller screens (Original rule missing, added for mobile optimization) */
+/* Hide scroll buttons on tablets and mobile */
 @media (max-width: 768px) {
     .scroll-btn {
         display: none; 
     }
 }
 
+/* Mobile specific carousel card width */
+@media (max-width: 550px) {
+  .story-carousel .story-card {
+      /* On small screens, take up most of the viewport width */
+      flex: 0 0 85vw; 
+  }
+}
 
-/* --- Modal Overlay & Box (Story Section) --- */
+/* ==================================== */
+/* 4. MODAL STYLING (Theming and Responsiveness) */
+/* ==================================== */
+
 /* Modal overlay */
 .story-modal-overlay {
   position: fixed;
@@ -437,7 +442,6 @@
   /* FIX: Responsive padding */
   padding: clamp(10px, 3vw, 20px); 
 }
-
 
 /* Modal box */
 .story-modal {
@@ -456,9 +460,9 @@
   scroll-behavior: smooth;
 }
 
-/* Theming remains the same, ensuring color consistency with variables */
+/* Theming for Modal */
 .story-modal.light {
-  background: rgba(255, 255, 255, 0.95); /* Fixed the low opacity issue */
+  background: rgba(255, 255, 255, 0.95); 
   color: var(--color-text); 
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -489,15 +493,14 @@
   color: #fff;
 }
 
-
 /* Modal Cards/Buttons (Using theme-aware classes) */
 .story-modal.light .theme-aware-card {
-  background: rgba(255,255,255,0.9); /* Adjusted for light mode */
+  background: rgba(255,255,255,0.9); 
   color: var(--color-text);
 }
 
 .story-modal.dark .theme-aware-card {
-  background: var(--color-glass-bg); /* Adjusted for dark mode */
+  background: var(--color-glass-bg); 
   color: var(--color-text);
 }
 
@@ -528,7 +531,7 @@
 /* Pagination */
 .story-modal.light .pagination-btn {
   background: linear-gradient(145deg, var(--color-primary), var(--color-secondary-highlight));
-  color: #fff; /* Fixed color to white for readability */
+  color: #fff; 
 }
 
 .story-modal.dark .pagination-btn {
@@ -539,10 +542,33 @@
 /* Page info */
 .story-modal.light .page-info {
   background: linear-gradient(145deg, var(--color-primary), var(--color-secondary-highlight));
-  color: #fff; /* Fixed color to white for readability */
+  color: #fff; 
 }
 
 .story-modal.dark .page-info {
   background: linear-gradient(145deg, var(--color-secondary-highlight), var(--color-primary));
   color: #fff;
+}
+
+.view-more-btn {
+  /* Responsive padding - SMALLER MAX SIZE (14px -> 12px) */
+  padding: clamp(2px, 1vw, 12px) clamp(10px, 3vw, 35px);
+  /* Responsive font size - SMALLER MAX SIZE (1.2rem -> 1.1rem) */
+  font-size: clamp(0.7rem, 1.8vw, 1.1rem); 
+  font-weight:clamp(300, 700, 500);
+  letter-spacing: 0.5px;
+  color: #fff;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  /* Using specific colors for the Jokes Section button */
+  background: linear-gradient(90deg, rgba(0,255,255,0.2), rgba(255,0,238,0.2));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-image: linear-gradient(90deg, #00ffff, #ff00cc) 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
 }
