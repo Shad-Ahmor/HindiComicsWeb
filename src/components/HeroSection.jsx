@@ -8,7 +8,6 @@ import { Sun, Moon, Book, Download, Users, Star } from "lucide-react";
 import StorySection from "./StorySection"; 
 import JokesSection from "./JokesSection";
 import ShayriSection from "./ShayriSection";
-
 // CSS file is imported in App.jsx
 
 // 🌈 Aurora Gradient Background (for dark mode)

@@ -1,0 +1,141 @@
+/* ============================= */
+/* FOOTER STYLING */
+/* ============================= */
+
+.app-footer {
+    width: 100%;
+    /* FIX: Responsive padding */
+    padding: clamp(25px, 5vh, 40px) clamp(15px, 4vw, 20px); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-glass-bg); /* Glass effect background */
+    border-top: 1px solid var(--color-glass-border);
+    box-shadow: 0 -8px 32px 0 rgba(0, 0, 0, 0.2), 0 0 10px var(--color-card-shadow);
+    backdrop-filter: blur(15px);
+    color: var(--color-subtle-text);
+    flex-direction: column;
+    /* FIX: Responsive gap */
+    gap: clamp(15px, 3vw, 20px); 
+    transition: all 0.3s ease;
+    z-index: 50;
+    /* FIX: Ensure font size scales */
+    font-size: clamp(0.85rem, 1.5vw, 1rem); 
+}
+
+.app-footer a {
+    color: var(--color-subtle-text);
+    text-decoration: none;
+    /* FIX: Responsive margin */
+    margin: 0 clamp(5px, 1.5vw, 10px); 
+    font-weight: 500;
+    transition: all 0.3s ease;
+    /* FIX: Ensure link text size scales */
+    font-size: clamp(0.9rem, 1.6vw, 1rem); 
+}
+
+.app-footer a:hover {
+    color: var(--color-primary);
+    text-shadow: 0 0 5px var(--color-primary-glow);
+}
+
+.footer-content {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    /* FIX: Responsive gap */
+    gap: clamp(10px, 2vw, 15px); 
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    /* FIX: Responsive gap */
+    gap: clamp(8px, 1.5vw, 10px); 
+}
+
+.footer-brand img {
+    /* FIX: Responsive logo size */
+    width: clamp(35px, 4vw, 45px); 
+    height: clamp(35px, 4vw, 45px); 
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 10px var(--color-card-shadow);
+}
+
+.dark .footer-brand img {
+    box-shadow: 0 0 15px var(--color-primary-glow), 0 0 5px var(--color-primary);
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* FIX: Responsive gap */
+    gap: clamp(10px, 2vw, 15px); 
+}
+
+.footer-theme {
+    /* FIX: Responsive font size */
+    font-size: clamp(0.8rem, 1.4vw, 0.9rem); 
+    color: var(--color-subtle-text);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Glass hover effect for footer links */
+.app-footer a {
+    /* FIX: Responsive padding */
+    padding: clamp(4px, 1vw, 6px) clamp(8px, 1.5vw, 10px); 
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.app-footer a:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Dark mode specific adjustments remain the same */
+.dark .app-footer {
+    background: var(--color-glass-bg);
+    border-top: 1px solid var(--color-glass-border);
+    color: var(--color-subtle-text);
+    box-shadow: 0 -8px 32px 0 rgba(0, 0, 0, 0.6), 0 0 20px var(--color-card-shadow);
+}
+
+.dark .app-footer a:hover {
+    color: var(--color-primary);
+    text-shadow: 0 0 10px var(--color-primary-glow), 0 0 5px var(--color-secondary-highlight);
+}
+
+/* Responsive Footer (Original Media Queries Maintained) */
+@media (max-width: 900px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    .footer-links {
+        justify-content: center;
+    }
+    .footer-brand {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .app-footer {
+        padding: 30px 15px;
+    }
+    /* FIX: Reduced margin for links on small screens */
+    .footer-links a {
+        margin: 5px; 
+    }
+    .footer-content {
+        gap: 20px;
+    }
+}

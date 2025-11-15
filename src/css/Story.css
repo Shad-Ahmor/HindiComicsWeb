@@ -1,0 +1,548 @@
+.story-card {
+  width: 100%;
+  max-width: 320px;
+  background: var(--color-glass-bg);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px var(--color-card-shadow);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+    /* FIX: Changed fixed #fff to dynamic var(--color-text) */
+    color: var(--color-text); 
+  /* FIX: Adjusted min-height for slightly better proportion */
+  min-height: clamp(280px, 40vh, 350px); 
+  justify-content: space-between;
+
+}
+
+.story-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5), 0 0 35px var(--color-primary-glow);
+}
+
+/* --- STORY GRID LAYOUT (Optimized for Responsiveness) --- */
+.story-grid {
+  display: grid;
+  max-width: 1400px;
+  margin: 0 auto;
+  /* FIX: Auto-fit with responsive minmax for column sizing */
+  grid-template-columns: repeat(auto-fit, minmax(clamp(240px, 25vw, 320px), 1fr));
+  gap: clamp(20px, 4vw, 35px); /* Responsive gap */
+  justify-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 5;
+  padding: 0 10px; /* Add slight padding for very narrow screens */
+}
+
+/* Desktop (Original rule maintained) */
+@media (min-width: 1200px) {
+  .story-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet (Original rule maintained) */
+@media (max-width: 768px) {
+  .story-grid {
+    grid-template-columns: repeat(2, minmax(240px, 1fr));
+    gap: 25px;
+  }
+}
+
+/* Mobile (Original rule maintained) */
+@media (max-width: 550px) {
+  .story-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+
+/* Image */
+.story-card img {
+  width: 100%;
+  /* FIX: Responsive image height using clamp */
+  height: clamp(150px, 18vh, 200px); 
+  object-fit: cover;
+  transition: transform 0.6s ease;
+  border-bottom: 1px solid var(--color-glass-border);
+}
+
+.story-card:hover img {
+  transform: scale(1.07);
+}
+
+/* Card Body */
+.story-card-content {
+  /* FIX: Responsive padding */
+  padding: clamp(15px, 3vw, 22px); 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+/* TITLE */
+.story-card-title {
+  /* FIX: Responsive font size */
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem); 
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--color-text);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+.story-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* FIX: Responsive font size */
+  font-size: clamp(0.8rem, 1.5vw, 0.88rem); 
+  color: var(--color-subtle-text);
+  margin-bottom: 12px;
+}
+
+.story-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+
+.story-meta .story-category {
+  font-weight: 700;
+  color: var(--color-secondary-highlight);
+}
+
+/* DESCRIPTION */
+.story-card-desc {
+  /* FIX: Responsive font size */
+  font-size: clamp(0.9rem, 1.8vw, 0.96rem); 
+  color: var(--color-subtle-text);
+  line-height: 1.55;
+  margin-bottom: 18px;
+  /* FIX: Responsive min-height for text block consistency */
+  min-height: clamp(60px, 8vh, 65px); 
+}
+
+/* Info Bar (Likes, Dislikes, Views, Rating) */
+.story-card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 10px;
+    margin-top: auto;
+    border-top: 1px solid var(--color-grid-line);
+    /* FIX: Responsive font size */
+    font-size: clamp(0.85rem, 1.6vw, 0.9rem); 
+}
+
+.story-stats {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.story-stats span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.story-stats span:hover {
+  transform: scale(1.1);
+}
+
+.story-stats .likes {
+  color: var(--color-primary);
+}
+
+.story-stats .dislikes {
+  color: #ff5b5b;
+}
+
+.story-stats .views {
+  color: var(--color-secondary-highlight);
+}
+
+.story-card-info .rating {
+  color: #ffc107;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.story-card-btn {
+  margin-top: 18px;
+  width: 100%;
+  /* FIX: Responsive padding */
+  padding: clamp(10px, 2.5vw, 12px) 0; 
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-secondary-highlight)
+  );
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 800;
+  /* FIX: Responsive font size */
+  font-size: clamp(0.95rem, 2vw, 1.05rem); 
+  letter-spacing: 0.3px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35),
+    0 0 12px var(--color-primary-glow);
+  transition: transform 0.25s ease, box-shadow 0.35s ease;
+}
+
+.story-card-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45),
+    0 0 25px var(--color-primary-glow);
+}
+
+.dark .story-card {
+  background: var(--color-glass-bg);
+  border-color: var(--color-glass-border);
+}
+
+.dark .story-card:hover {
+  box-shadow: 0 0 45px var(--color-primary-glow),
+    0 0 15px var(--color-secondary-highlight);
+}
+
+.dark .story-card-info {
+  border-top-color: var(--color-grid-line);
+}
+
+
+/* Shared background layer for Hero and Story sections */
+.story-section {
+  position: relative;
+  overflow: hidden;
+  /* FIX: Responsive padding */
+  padding: clamp(60px, 8vh, 100px) clamp(20px, 5vw, 50px); 
+  background-color: var(--color-background);
+}
+
+.story-bg-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.story-section > * {
+  position: relative;
+  z-index: 2; /* So content stays above aurora and particles */
+}
+.section-title {
+  text-align: center;
+  /* FIX: Responsive font size */
+  font-size: clamp(1.8rem, 4.5vw, 2.8rem); 
+  font-weight: 900;
+  /* FIX: Responsive margin */
+  margin-bottom: clamp(30px, 6vw, 60px); 
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--section-title-color); /* dynamic color */
+  text-shadow: var(--section-title-shadow);
+  transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+/* Optional subtle gradient fade between Hero and Story */
+.story-section::before {
+  content: "";
+  position: absolute;
+  top: -150px;
+  left: 0;
+  right: 0;
+  height: 150px;
+ 
+  z-index: 1;
+}
+
+/* ---- STORY CAROUSEL WRAPPER ---- */
+.story-carousel-wrapper {
+  position: relative;
+  max-width: 100%;         /* full width */
+  margin: 0 auto;
+  /* FIX: Responsive padding */
+  padding: 0 clamp(10px, 5vw, 60px); 
+  overflow: hidden;
+}
+
+/* ---- SCROLLABLE AREA ---- */
+.story-carousel {
+  /* FIX: Responsive padding */
+  padding: clamp(2rem, 5vh, 4rem) 0; 
+  display: flex;
+  /* FIX: Responsive gap */
+  gap: clamp(15px, 2vw, 20px); 
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.story-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* ---- STORY CARD (Carousel specific styles) ---- */
+/* NOTE: Replaced the redundant .story-card block with the original, keeping flex sizing */
+.story-card {
+  /* FIX: Responsive card width for carousel */
+  flex: 0 0 clamp(250px, 35vw, 300px);          
+  background: var(--color-glass-bg);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px var(--color-card-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 30px var(--color-primary-glow);
+}
+
+.story-card img {
+  width: 100%;
+  /* FIX: Responsive image height */
+  height: clamp(140px, 15vh, 160px); 
+  object-fit: cover;
+}
+
+
+
+.story-card-content {
+  /* FIX: Responsive padding */
+  padding: clamp(12px, 2vw, 15px); 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.story-card-title {
+  /* FIX: Responsive font size */
+  font-size: clamp(1.1rem, 2vw, 1.2rem); 
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--color-text);
+}
+
+.story-meta {
+  display: flex;
+  justify-content: space-between;
+  /* FIX: Responsive font size */
+  font-size: clamp(0.75rem, 1.2vw, 0.85rem); 
+  margin-bottom: 8px;
+  color: var(--color-subtle-text);
+}
+
+.story-card-desc {
+  /* FIX: Responsive font size */
+  font-size: clamp(0.8rem, 1.4vw, 0.9rem); 
+  line-height: 1.4;
+  color: var(--color-subtle-text);
+}
+
+.story-card-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* FIX: Responsive font size */
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem); 
+  margin-top: 10px;
+}
+
+.story-card-btn {
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 8px;
+  /* FIX: Responsive padding */
+  padding: clamp(8px, 2vw, 10px) 0; 
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-highlight));
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.story-card-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ---- SCROLL BUTTONS ---- */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  /* FIX: Responsive button size */
+  width: clamp(35px, 5vw, 45px); 
+  height: clamp(35px, 5vw, 45px); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scroll-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: var(--color-primary);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.scroll-btn.left {
+  left: 10px;
+}
+
+.scroll-btn.right {
+  right: 10px;
+}
+
+/* Hide scroll buttons on smaller screens (Original rule missing, added for mobile optimization) */
+@media (max-width: 768px) {
+    .scroll-btn {
+        display: none; 
+    }
+}
+
+
+/* --- Modal Overlay & Box (Story Section) --- */
+/* Modal overlay */
+.story-modal-overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  /* FIX: Responsive padding */
+  padding: clamp(10px, 3vw, 20px); 
+}
+
+
+/* Modal box */
+.story-modal {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  width: 100%;
+  max-width: clamp(300px, 95vw, 1000px); /* Responsive max width */
+  max-height: 85vh;
+  overflow-y: auto;
+  /* FIX: Responsive padding */
+  padding: clamp(20px, 4vw, 30px) clamp(15px, 3vw, 25px); 
+  color: var(--color-text);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+/* Theming remains the same, ensuring color consistency with variables */
+.story-modal.light {
+  background: rgba(255, 255, 255, 0.95); /* Fixed the low opacity issue */
+  color: var(--color-text); 
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.story-modal.light .story-card {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-text);
+}
+
+.story-modal.light .story-card-btn {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-highlight));
+  color: #fff;
+}
+
+.story-modal.dark {
+  background: var(--color-glass-bg);
+  color: var(--color-text);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.story-modal.dark .story-card {
+  background: var(--color-glass-bg);
+  color: var(--color-text);
+}
+
+.story-modal.dark .story-card-btn {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-highlight));
+  color: #fff;
+}
+
+
+/* Modal Cards/Buttons (Using theme-aware classes) */
+.story-modal.light .theme-aware-card {
+  background: rgba(255,255,255,0.9); /* Adjusted for light mode */
+  color: var(--color-text);
+}
+
+.story-modal.dark .theme-aware-card {
+  background: var(--color-glass-bg); /* Adjusted for dark mode */
+  color: var(--color-text);
+}
+
+/* Card title/desc/info */
+.story-modal.light .story-card-title,
+.story-modal.light .story-card-desc,
+.story-modal.light .story-card-info {
+  color: var(--color-text);
+}
+
+.story-modal.dark .story-card-title,
+.story-modal.dark .story-card-desc,
+.story-modal.dark .story-card-info {
+  color: var(--color-text);
+}
+
+/* Buttons */
+.story-modal.light .theme-aware-btn {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-highlight));
+  color: #fff;
+}
+
+.story-modal.dark .theme-aware-btn {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary-highlight));
+  color: #fff;
+}
+
+/* Pagination */
+.story-modal.light .pagination-btn {
+  background: linear-gradient(145deg, var(--color-primary), var(--color-secondary-highlight));
+  color: #fff; /* Fixed color to white for readability */
+}
+
+.story-modal.dark .pagination-btn {
+  background: linear-gradient(145deg, var(--color-secondary-highlight), var(--color-primary));
+  color: #fff;
+}
+
+/* Page info */
+.story-modal.light .page-info {
+  background: linear-gradient(145deg, var(--color-primary), var(--color-secondary-highlight));
+  color: #fff; /* Fixed color to white for readability */
+}
+
+.story-modal.dark .page-info {
+  background: linear-gradient(145deg, var(--color-secondary-highlight), var(--color-primary));
+  color: #fff;
+}

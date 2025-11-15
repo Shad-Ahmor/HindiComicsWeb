@@ -1,0 +1,153 @@
+.modal-image {
+  width: 100%;
+  border-radius: 10px;
+  /* FIX: Responsive margin */
+  margin-bottom: clamp(15px, 3vw, 20px); 
+  object-fit: cover;
+}
+
+
+.modal-meta {
+  /* FIX: Responsive font size */
+  font-size: clamp(0.85rem, 1.6vw, 0.95rem); 
+  opacity: 0.7;
+  /* FIX: Responsive margin */
+  margin-bottom: clamp(15px, 3vw, 20px); 
+  text-align: center;
+}
+
+.modal-title {
+  /* FIX: Responsive font size */
+  font-size: clamp(1.4rem, 3vw, 1.8rem); 
+  font-weight: 800;
+  /* FIX: Responsive margin */
+  margin-bottom: clamp(15px, 3vw, 20px); 
+  text-align: center;
+  color: var(--color-text);
+}
+
+
+.modal-story {
+  /* FIX: Responsive font size */
+  font-size: clamp(0.9rem, 1.8vw, 1rem); 
+  line-height: 1.7;
+  color: var(--color-subtle-text);
+  white-space: pre-line;
+  /* FIX: Responsive margin */
+  margin-bottom: clamp(20px, 4vw, 25px); 
+}
+
+.modal-close-btn {
+  position: absolute;
+  /* FIX: Responsive positioning */
+  top: clamp(10px, 2vw, 15px); 
+  right: clamp(10px, 2vw, 15px); 
+  /* FIX: Responsive size */
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem); 
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.modal-close-btn:hover {
+  transform: scale(1.2);
+}
+
+
+
+.modal-list {
+  /* FIX: Responsive padding */
+  padding: 0 clamp(5px, 1vw, 10px); 
+}
+
+.modal-list .grid {
+  display: grid;
+  /* FIX: Ensure grid columns are based on content/responsive containers */
+  grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+  /* FIX: Responsive gap */
+  gap: clamp(15px, 3vw, 20px); /* spacing between cards, both row and column */
+}
+
+/* Responsive adjustments (Original Media Queries Maintained) */
+@media (max-width: 1024px) {
+  .modal-list .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 per row on tablets */
+  }
+}
+
+@media (max-width: 640px) {
+  .modal-list .grid {
+    grid-template-columns: 1fr; /* 1 per row on mobile */
+  }
+}
+
+
+
+/* Pagination container */
+.modal-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* FIX: Responsive gap */
+  gap: clamp(10px, 2vw, 15px); 
+  /* FIX: Responsive margin */
+  margin-top: clamp(20px, 4vw, 30px); 
+  flex-wrap: wrap;
+}
+
+/* Page buttons */
+.modal-pagination button {
+  /* FIX: Responsive padding */
+  padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px); 
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: linear-gradient(145deg, #00ffff, #ff00cc);
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  /* FIX: Responsive font size */
+  font-size: clamp(0.85rem, 1.5vw, 1rem); 
+}
+
+/* Disabled button style remains the same */
+.modal-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  background: rgba(200,200,200,0.3);
+}
+
+/* Hover / active effect remains the same */
+.modal-pagination button:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+/* Page indicator text */
+.modal-pagination .page-info {
+  font-weight: 600;
+  /* FIX: Responsive padding */
+  padding: clamp(8px, 2vw, 10px) clamp(12px, 2.5vw, 15px); 
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(145deg, #ff00cc, #00ffff);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  /* FIX: Responsive font size */
+  font-size: clamp(0.85rem, 1.5vw, 1rem); 
+}
+
+/* Dark / Light theme support remains the same */
+body.dark .modal-pagination button,
+body.dark .modal-pagination .page-info {
+  background: linear-gradient(145deg, #00ffff, #aa00ff);
+  color: #fff;
+}
+
+body.light .modal-pagination button,
+body.light .modal-pagination .page-info {
+  background: linear-gradient(145deg, #ff00cc, #00ffff);
+  color: #fff;
+}

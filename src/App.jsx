@@ -5,6 +5,12 @@ import { ThemeProvider } from "./components/ThemeContext";
 
 // Ensure you import the styles, even if they're named differently
 import "./css/HeroSection.css";
+import './css/Footer.css'
+import './css/Modal.css'
+import './css/Story.css'
+import './css/Shayri.css'
+
+
 // import "./css/StorySection.css"; 
 
 export default function App() {
