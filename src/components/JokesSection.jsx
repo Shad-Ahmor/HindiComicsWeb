@@ -111,7 +111,7 @@ export default function JokesSection() {
   useEffect(() => {
     const fetchJokes = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/jokes`, {
+        const response = await axios.get(`${API_BASE_URL}/content`, {
           params: { database: "jokes" },
         });
         setJokes(response.data || []);

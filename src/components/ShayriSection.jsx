@@ -106,7 +106,7 @@ export default function ShayriSection() {
   useEffect(() => {
     const fetchShayris = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/jokes`, {
+        const response = await axios.get(`${API_BASE_URL}/content`, {
           params: { database: "shayri" },
         });
         setShayris(response.data || []);

@@ -143,7 +143,7 @@ export default function StorySection() {
     useEffect(() => {
         const fetchStories = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}/jokes`, {
+                const response = await axios.get(`${API_BASE_URL}/content`, {
                     params: { database: "stories" },
                 });
                 
@@ -209,7 +209,7 @@ export default function StorySection() {
             {/* Loading/Error */}
             {loading && <p className="text-center opacity-70">Loading stories...</p>}
             {error && <p className="text-center text-red-500" style={{ fontWeight: 'bold' }}>{error}</p>}
-            {isApiFailed && <p className="text-center text-gray-500">Please check the server at `${API_BASE_URL}/jokes`.</p>}
+            {isApiFailed && <p className="text-center text-gray-500">Please check the server at `${API_BASE_URL}/content`.</p>}
 
             {/* Story Carousel */}
             {!loading && displayStories.length > 0 && (
